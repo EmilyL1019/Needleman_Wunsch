@@ -1,8 +1,6 @@
 use std::io;
 mod grid;
 mod alignment;
-// ToDo:
-
 fn main() {
     // Get two sequences as input
     let mut seq1 : String = String::new();
