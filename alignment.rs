@@ -99,10 +99,8 @@ fn priv_best_alignment<'a>(score_grid: &'a Vec<i32>,directions: &'a Vec<String>,
 pub fn build_best_alignment<'a>(score_grid: &'a Vec<i32>,directions: &'a Vec<String>, cell: i32, seq1: &'a mut String, seq2: &'a mut String) -> (Vec<String>, Vec<String>){
     let mut aligned_sequence1:Vec<Vec<char>> = vec![[].to_vec()];
     let mut aligned_sequence2:Vec<Vec<char>> = vec![[].to_vec()];
-    let mut str_aligned_seq1: Vec<String> = Vec::new();
-    let mut str_aligned_seq2: Vec<String> = Vec::new();
     let mut index:usize = 0;
-    (str_aligned_seq1, str_aligned_seq2) = priv_best_alignment(score_grid, directions, cell, seq1, seq2, &mut aligned_sequence1, &mut aligned_sequence2, &mut index);
+    let (mut str_aligned_seq1, mut str_aligned_seq2) = priv_best_alignment(score_grid, directions, cell, seq1, seq2, &mut aligned_sequence1, &mut aligned_sequence2, &mut index);
     for i in 0..aligned_sequence1.len() {
         let mut j = str_aligned_seq1[i].len();
         while j < str_aligned_seq1[0].len() {
