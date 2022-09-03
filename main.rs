@@ -1,6 +1,8 @@
 use std::io;
 mod grid;
 mod alignment;
+// ToDo:
+
 fn main() {
     // Get two sequences as input
     let mut seq1 : String = String::new();
@@ -307,4 +309,40 @@ mod tests {
         "AAACT-ACA-"]);
         assert_eq!(score, -6);
     }
+
+    #[test]
+    fn test7() {
+        let grid = vec![0, -1, -2, -3, -4, -5,
+        -1, -1, -2, -3, -4, -5,
+        -2, -2, -2, -3, -4, -5,
+        -3, -3, -3, -3, -4, -5,
+        -4, -4, -4, -4, -4, -5,
+        -5, -5, -5, -5, -5, -5
+        ];
+        let directions:Vec<String> = vec!["D".to_string(), "LD".to_string(), "LD".to_string(), "LD".to_string(), "LD".to_string(),
+        "UD".to_string(), "D".to_string(), "LD".to_string(), "LD".to_string(), "LD".to_string(),
+        "UD".to_string(), "UD".to_string(), "D".to_string(), "LD".to_string(), "LD".to_string(),
+        "UD".to_string(), "UD".to_string(), "UD".to_string(), "D".to_string(), "LD".to_string(),
+        "UD".to_string(), "UD".to_string(), "UD".to_string(), "UD".to_string(), "D".to_string(),
+        ];
+        let mut seq1 : String = "AAAAA\n".to_string();
+        let mut seq2 : String = "TTTTT\n".to_string();
+        let (ftn_grid, ftn_directions) = create_grid(&mut seq1, &mut seq2, 5, 5);
+        //  Check values
+        for i in 0..35 {
+            assert_eq!(grid[i], ftn_grid[i]); 
+        }
+        // Check directions
+        for i in 0..24 {
+            assert_eq!(directions[i], ftn_directions[i]);
+        }   
+        // Create and check alignments
+        let (aligned_seq1, aligned_seq2) = build_best_alignment(&ftn_grid, &ftn_directions, 24, &mut seq1, &mut seq2);
+        let score = score(&aligned_seq1[0], &aligned_seq2[0]);
+        print_alignments(&aligned_seq1, &aligned_seq2, score);
+        assert_eq!(aligned_seq1, vec!["AAAAA"]);
+        assert_eq!(aligned_seq2, vec!["TTTTT"]);
+        assert_eq!(score, -5);
+    }
+
 }
